@@ -6,7 +6,8 @@ export default async function RecipeDetailsPage({
 }: {
   params: Promise<{ recipeId: string }>;
 }) {
-  const recipe: RecipeDetails = await getRecipe((await params).recipeId);
+  const recipeId = Number((await params).recipeId);
+  const recipe: RecipeDetails = await getRecipe(recipeId);
 
   return (
     <div className="mx-auto mt-8 max-w-3xl rounded-xl bg-white p-6 shadow">
