@@ -1,39 +1,12 @@
-import { notFound } from 'next/navigation';
-
-interface Ingredient {
-  id: number;
-  original: string;
-}
-
-interface Recipe {
-  title: string;
-  extendedIngredients: Ingredient[];
-  readyInMinutes: number;
-  servings: number;
-  summary: string;
-}
-
-async function getRecipe(id: string): Promise<Recipe> {
-  const apiKey = process.env.SPOONACULAR_API_KEY;
-  const url = `https://api.spoonacular.com/recipes/${id}/information?apiKey=${apiKey}`;
-
-  const res = await fetch(url, {
-    next: { revalidate: 60 },
-  });
-
-  if (!res.ok) {
-    notFound();
-  }
-
-  return res.json();
-}
+import { getRecipe } from '@/lib/api/getRecipeDetails';
+import { RecipeDetails } from '@/types/recipe';
 
 export default async function RecipeDetailsPage({
   params,
 }: {
   params: Promise<{ recipeId: string }>;
 }) {
-  const recipe = await getRecipe((await params).recipeId);
+  const recipe: RecipeDetails = await getRecipe((await params).recipeId);
 
   return (
     <div className="mx-auto mt-8 max-w-3xl rounded-xl bg-white p-6 shadow">
