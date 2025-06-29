@@ -1,3 +1,4 @@
+import endpoints from '@/constants/endpoints';
 import { Recipe } from '@/types/recipe';
 
 export async function getRecipes(searchParams: {
@@ -6,11 +7,8 @@ export async function getRecipes(searchParams: {
   prepTime?: string;
 }): Promise<Recipe[]> {
   const { query = '', cuisine = '', prepTime = '' } = searchParams;
-  const apiKey = process.env.SPOONACULAR_API_KEY;
 
-  const url = `https://api.spoonacular.com/recipes/complexSearch?query=${query}&cuisine=${cuisine}&maxReadyTime=${prepTime}&apiKey=${apiKey}`;
-
-  const res = await fetch(url, {
+  const res = await fetch(endpoints.getRecipeList({ query, cuisine, prepTime }), {
     next: { revalidate: 60 },
   });
 

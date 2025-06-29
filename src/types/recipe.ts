@@ -16,3 +16,9 @@ export interface Recipe {
   title: string;
   image: string;
 }
+
+export interface IGetRecipeRequest {
+  query: string;
+  cuisine: string;
+  prepTime: string;
+}
